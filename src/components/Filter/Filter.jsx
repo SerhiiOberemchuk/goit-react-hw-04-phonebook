@@ -1,4 +1,4 @@
-export const Filter = ({ state, handleChange }) => {
+export const Filter = ({ filter, handleChange }) => {
   return (
     <div className="mb-3">
       <label htmlFor="name" className="form-label">
@@ -9,7 +9,7 @@ export const Filter = ({ state, handleChange }) => {
         className="form-control"
         name="filter"
         onChange={e => handleChange(e)}
-        value={state.filter}
+        value={filter}
         required
       />
     </div>
