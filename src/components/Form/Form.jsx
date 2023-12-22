@@ -1,61 +1,66 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-export class FormAddContacts extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export const FormAddContacts = ({ handleAddContact }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleChange = e => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.handleAddContact(
+    handleAddContact(
       {
-        name: this.state.name,
-        number: this.state.number,
+        name,
+        number,
       },
-      this.clean
+      clean
     );
   };
-  clean = () => this.setState({ name: '', number: '' });
-  render() {
-    return (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            name="name"
-            id="name"
-            onChange={e => this.handleChange(e)}
-            value={this.state.name}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="number" className="form-label">
-            Number
-          </label>
-          <input
-            type="tel"
-            className="form-control"
-            name="number"
-            id="number"
-            value={this.state.number}
-            onChange={e => this.handleChange(e)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Add contact
-        </button>
-      </form>
-    );
-  }
-}
+  const clean = () => {
+    setName('');
+    setNumber('');
+  };
+
+  return (
+    <form onSubmit={e => handleSubmit(e)}>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
+          Name
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          name="name"
+          id="name"
+          onChange={e => handleChange(e)}
+          value={name}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="number" className="form-label">
+          Number
+        </label>
+        <input
+          type="tel"
+          className="form-control"
+          name="number"
+          id="number"
+          value={number}
+          onChange={e => handleChange(e)}
+          required
+        />
+      </div>
+      <button type="submit" className="btn btn-primary">
+        Add contact
+      </button>
+    </form>
+  );
+};
